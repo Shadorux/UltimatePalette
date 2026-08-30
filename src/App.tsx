@@ -5,6 +5,7 @@ import {
   downloadSwatches,
   extractPalette,
   getContrastPairs,
+  type ColorRoles,
   type PaletteColor,
 } from './palette'
 
@@ -17,19 +18,23 @@ const starterColors: PaletteColor[] = [
   { hex: '#F4F4F5', rgb: 'rgb(244, 244, 245)', hsl: 'hsl(240 5% 96%)', count: 4 },
 ]
 
+const paletteSizes = [4, 6, 8, 10, 12]
+
 const copy = async (value: string) => {
   await navigator.clipboard.writeText(value)
 }
 
 function App() {
   const [colors, setColors] = useState<PaletteColor[]>(starterColors)
+  const [roles, setRoles] = useState<ColorRoles>(() => assignRoles(starterColors))
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [fileName, setFileName] = useState('Shadow-coded demo palette')
   const [status, setStatus] = useState('Drop an image to extract its palette.')
+  const [paletteSize, setPaletteSize] = useState(8)
+  const [currentFile, setCurrentFile] = useState<File | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const pairs = useMemo(() => getContrastPairs(colors), [colors])
-  const roles = useMemo(() => assignRoles(colors), [colors])
 
   const cssExport = useMemo(() => {
     const lines = Object.entries(roles).map(([key, value]) => `  --${key}: ${value};`)
@@ -47,20 +52,42 @@ function App() {
     [colors, roles],
   )
 
-  const handleFile = async (file?: File) => {
-    if (!file || !file.type.startsWith('image/')) return
-    if (imageUrl) URL.revokeObjectURL(imageUrl)
-    const nextUrl = URL.createObjectURL(file)
-    setImageUrl(nextUrl)
-    setFileName(file.name)
+  const applyPalette = (palette: PaletteColor[]) => {
+    const next = palette.length ? palette : starterColors
+    setColors(next)
+    setRoles(assignRoles(next))
+    return next.length
+  }
+
+  const extractFromFile = async (file: File, size: number) => {
     setStatus('Extracting colors…')
     try {
-      const palette = await extractPalette(file, 8)
-      setColors(palette.length ? palette : starterColors)
-      setStatus(`Extracted ${palette.length || starterColors.length} colors.`)
+      const palette = await extractPalette(file, size)
+      const extracted = applyPalette(palette)
+      setStatus(`Extracted ${extracted} perceptually distinct colors.`)
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Palette extraction failed.')
     }
+  }
+
+  const handleFile = async (file?: File) => {
+    if (!file || !file.type.startsWith('image/')) return
+    if (imageUrl) URL.revokeObjectURL(imageUrl)
+
+    const nextUrl = URL.createObjectURL(file)
+    setImageUrl(nextUrl)
+    setFileName(file.name)
+    setCurrentFile(file)
+    await extractFromFile(file, paletteSize)
+  }
+
+  const handlePaletteSize = async (size: number) => {
+    setPaletteSize(size)
+    if (currentFile) await extractFromFile(currentFile, size)
+  }
+
+  const updateRole = (role: keyof ColorRoles, value: string) => {
+    setRoles((current) => ({ ...current, [role]: value }))
   }
 
   return (
@@ -108,6 +135,22 @@ function App() {
             </button>
           </div>
 
+          <div className="palette-controls">
+            <span>Palette size</span>
+            <div>
+              {paletteSizes.map((size) => (
+                <button
+                  key={size}
+                  className={paletteSize === size ? 'active' : ''}
+                  onClick={() => void handlePaletteSize(size)}
+                  type="button"
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="swatches">
             {colors.map((color) => (
               <button className="swatch" key={color.hex} onClick={() => void copy(color.hex)}>
@@ -128,13 +171,18 @@ function App() {
         <div className="panel">
           <span className="kicker">AUTO ROLES</span>
           <h2>Semantic color system</h2>
-          <div className="roles">
-            {Object.entries(roles).map(([role, value]) => (
-              <button key={role} onClick={() => void copy(value)}>
-                <span style={{ background: value }} />
+          <p className="panel-note">Auto-assigned from the extracted palette. Change any role manually.</p>
+          <div className="roles editable-roles">
+            {(Object.keys(roles) as (keyof ColorRoles)[]).map((role) => (
+              <label key={role}>
+                <span className="role-chip" style={{ background: roles[role] }} />
                 <b>{role}</b>
-                <code>{value}</code>
-              </button>
+                <select value={roles[role]} onChange={(event) => updateRole(role, event.target.value)}>
+                  {colors.map((color) => (
+                    <option key={color.hex} value={color.hex}>{color.hex}</option>
+                  ))}
+                </select>
+              </label>
             ))}
           </div>
         </div>
