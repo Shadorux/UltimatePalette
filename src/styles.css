@@ -1,0 +1,64 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #f4f4f5;
+  background: #070709;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background:
+  radial-gradient(circle at 80% 10%, rgba(239, 23, 23, .13), transparent 28rem),
+  linear-gradient(180deg, #070709, #0d0d10 55%, #070709); }
+button, input { font: inherit; }
+button { color: inherit; }
+.shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+.hero { padding: 78px 0 34px; }
+.eyebrow, .kicker { display: flex; align-items: center; gap: 7px; color: #ff3030; font-weight: 800; letter-spacing: .18em; font-size: .72rem; }
+h1 { margin: 10px 0 10px; font-size: clamp(3.2rem, 9vw, 7.5rem); line-height: .82; letter-spacing: -.075em; }
+h1 span { color: #ef1717; }
+.lede { max-width: 760px; color: #a1a1aa; font-size: 1.05rem; line-height: 1.7; }
+.workspace { display: grid; grid-template-columns: .82fr 1.18fr; gap: 18px; }
+.panel, .dropzone { border: 1px solid #27272a; background: rgba(15,15,18,.88); border-radius: 18px; box-shadow: 0 18px 70px rgba(0,0,0,.28); }
+.dropzone { min-height: 450px; overflow: hidden; padding: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; cursor: pointer; border-style: dashed; color: #71717a; }
+.dropzone:hover { border-color: #ef1717; color: #ef1717; }
+.dropzone img { width: 100%; height: 320px; object-fit: contain; border-radius: 12px; background: #050506; }
+.dropzone div { display: flex; flex-direction: column; gap: 4px; text-align: center; }
+.dropzone strong { color: #f4f4f5; }
+.dropzone span { color: #71717a; font-size: .88rem; }
+.panel { padding: 22px; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+h2 { margin: 5px 0 18px; font-size: 1.45rem; }
+.mini-button { border: 1px solid #3f3f46; border-radius: 10px; padding: 9px 11px; background: #18181b; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
+.mini-button:hover { border-color: #ef1717; }
+.swatches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.swatch { padding: 0; background: #0a0a0c; border: 1px solid #27272a; border-radius: 12px; overflow: hidden; display: grid; grid-template-columns: 48px 1fr auto; align-items: center; text-align: left; cursor: pointer; }
+.swatch:hover { border-color: #52525b; transform: translateY(-1px); }
+.swatch-color { height: 100%; min-height: 72px; }
+.swatch-data { padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.swatch-data strong { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.swatch-data small { color: #71717a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.swatch > svg { margin-right: 12px; color: #71717a; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+.roles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
+.roles button { background: #0a0a0c; border: 1px solid #27272a; border-radius: 10px; padding: 9px; display: grid; grid-template-columns: 30px 1fr auto; gap: 9px; align-items: center; cursor: pointer; text-align: left; }
+.roles button > span { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); }
+.roles b { text-transform: capitalize; }
+.roles code { color: #71717a; font-size: .75rem; }
+.contrasts { display: grid; gap: 9px; }
+.contrasts div { min-height: 52px; border-radius: 10px; padding: 0 14px; display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,.08); }
+.contrasts span { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .78rem; opacity: .88; }
+.exports { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+.export-card pre { margin: 16px 0 0; padding: 14px; border-radius: 12px; background: #08080a; border: 1px solid #202024; color: #d4d4d8; overflow: auto; min-height: 220px; font-size: .76rem; line-height: 1.55; }
+footer { padding: 42px 0 58px; color: #52525b; font-size: .75rem; font-weight: 800; letter-spacing: .16em; text-align: center; }
+
+@media (max-width: 900px) {
+  .workspace, .grid, .exports { grid-template-columns: 1fr; }
+  .dropzone { min-height: 330px; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding-top: 48px; }
+  .swatches, .roles { grid-template-columns: 1fr; }
+  .panel-head { align-items: flex-start; flex-direction: column; }
+}
