@@ -10,7 +10,7 @@
 body { margin: 0; min-width: 320px; min-height: 100vh; background:
   radial-gradient(circle at 80% 10%, rgba(239, 23, 23, .13), transparent 28rem),
   linear-gradient(180deg, #070709, #0d0d10 55%, #070709); }
-button, input { font: inherit; }
+button, input, select { font: inherit; }
 button { color: inherit; }
 .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
 .hero { padding: 78px 0 34px; }
@@ -29,8 +29,14 @@ h1 span { color: #ef1717; }
 .panel { padding: 22px; }
 .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 h2 { margin: 5px 0 18px; font-size: 1.45rem; }
+.panel-note { color: #71717a; margin: -8px 0 16px; font-size: .86rem; }
 .mini-button { border: 1px solid #3f3f46; border-radius: 10px; padding: 9px 11px; background: #18181b; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
 .mini-button:hover { border-color: #ef1717; }
+.palette-controls { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 0 0 14px; padding: 10px 12px; border: 1px solid #27272a; border-radius: 12px; background: #0a0a0c; }
+.palette-controls > span { color: #a1a1aa; font-size: .82rem; font-weight: 700; }
+.palette-controls > div { display: flex; gap: 6px; flex-wrap: wrap; }
+.palette-controls button { width: 36px; height: 32px; border: 1px solid #27272a; border-radius: 8px; background: #18181b; cursor: pointer; font-size: .82rem; }
+.palette-controls button:hover, .palette-controls button.active { border-color: #ef1717; background: #2a1012; color: #ff4a4a; }
 .swatches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .swatch { padding: 0; background: #0a0a0c; border: 1px solid #27272a; border-radius: 12px; overflow: hidden; display: grid; grid-template-columns: 48px 1fr auto; align-items: center; text-align: left; cursor: pointer; }
 .swatch:hover { border-color: #52525b; transform: translateY(-1px); }
@@ -41,10 +47,11 @@ h2 { margin: 5px 0 18px; font-size: 1.45rem; }
 .swatch > svg { margin-right: 12px; color: #71717a; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
 .roles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
-.roles button { background: #0a0a0c; border: 1px solid #27272a; border-radius: 10px; padding: 9px; display: grid; grid-template-columns: 30px 1fr auto; gap: 9px; align-items: center; cursor: pointer; text-align: left; }
-.roles button > span { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); }
-.roles b { text-transform: capitalize; }
-.roles code { color: #71717a; font-size: .75rem; }
+.editable-roles label { background: #0a0a0c; border: 1px solid #27272a; border-radius: 10px; padding: 9px; display: grid; grid-template-columns: 30px 1fr auto; gap: 9px; align-items: center; }
+.role-chip { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); }
+.editable-roles b { text-transform: capitalize; }
+.editable-roles select { max-width: 112px; color: #d4d4d8; background: #111114; border: 1px solid #323238; border-radius: 7px; padding: 6px 7px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .75rem; cursor: pointer; }
+.editable-roles select:focus { outline: 1px solid #ef1717; border-color: #ef1717; }
 .contrasts { display: grid; gap: 9px; }
 .contrasts div { min-height: 52px; border-radius: 10px; padding: 0 14px; display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,.08); }
 .contrasts span { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .78rem; opacity: .88; }
@@ -61,4 +68,5 @@ footer { padding: 42px 0 58px; color: #52525b; font-size: .75rem; font-weight: 8
   .hero { padding-top: 48px; }
   .swatches, .roles { grid-template-columns: 1fr; }
   .panel-head { align-items: flex-start; flex-direction: column; }
+  .palette-controls { align-items: flex-start; flex-direction: column; }
 }
